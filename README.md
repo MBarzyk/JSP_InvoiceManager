@@ -3,35 +3,56 @@ Faktura powinna posiadać pola zgodne z treścią ze wcześniejszych zajęć:
 
 public class Invoice  {
    private Long id;
+   
    private LocalDateTime dateOfCreation;
+   
    private String clientName;
+   
    private boolean ifPaid;
+   
    private LocalDateTime dateOfRelease;
+   
    private LocalDateTime dateOfPayment;
+   
    @Formula(value = "(SELECT SUM(p.price * p.stock) from product p where p.invoice_id = id )")
    private Double billValue;
+   
    @OneToMany(mappedBy = "invoice", fetch = FetchType.EAGER)
-//    @JoinColumn(name = "invoice_id")
    private List<Product> product;
+   
 }
+
 oraz pola dodatkowe:
 - Nip klienta (który musi być 10 znakowy)
 - adres klienta
+
 oraz produkt o budowie:
   
 public class Product {
    private Long id;
+   
    private String name;
+   
    private double price;
+   
    @Formula(value = "(price*0.23)")
+   
    private double tax;
+   
    @Enumerated(value = EnumType.STRING)
+   
    private TaxType tax;
+   
    private int stock;
+   
    @ToString.Exclude
+   
    @ManyToOne()
+   
    private Invoice invoice;
+   
 }
+
 Aplikacja powinna dostarczać funkcji:
 - dodawanie faktur,
 - dodawanie produktów do faktur
