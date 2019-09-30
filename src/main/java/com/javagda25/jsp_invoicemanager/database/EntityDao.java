@@ -56,4 +56,24 @@ public class EntityDao {
         }
     }
 
+    public <T extends IBaseEntity> void delete(Class<T> classT, Long id) {
+        Optional<T> optionalEntity = getById(classT, id);
+
+        if (optionalEntity.isPresent()) {
+            delete(optionalEntity.get());
+        } else {
+            System.out.println("Instance not found");
+        }
+    }
+
+    private <T extends IBaseEntity> void delete(T entity) {
+        SessionFactory factory = HibernateUtil.getSessionFactory();
+        try (Session session = factory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+
+            session.delete(entity);
+
+            transaction.commit();
+        }
+    }
 }

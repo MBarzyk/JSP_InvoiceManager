@@ -13,7 +13,7 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <html>
 <head>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css"/>
     <title>List Invoices</title>
 </head>
 <body>
@@ -21,15 +21,16 @@
 <table style="width: 75%" align="center">
     <br/>
     <tr>
-        <th>Id.             </th>
+        <th>Id.</th>
         <th>Date of Creation</th>
         <th>Client's Name</th>
         <th>Client's NIP</th>
         <th>Client's Address</th>
-        <th>Paid             </th>
+        <th>Paid</th>
         <th>Date of Release</th>
         <th>Date of Payment</th>
         <th>Bill value</th>
+        <th>Number of Products</th>
     </tr>
     <c:forEach var="invoice" items="${requestScope.invoiceList}">
     <tr>
@@ -39,32 +40,46 @@
         <td>${invoice.getClientNip()}</td>
         <td>${invoice.getClientAddress()}</td>
         <td>${invoice.isPaid()}</td>
-        <c:if test="${requestScope.dateOfRelease.isNull!=null}">
-        <td>${invoice.getDateOfRelease().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))}</td>
+        <c:if test="${invoice.dateOfRelease!=null}">
+            <td>${invoice.getDateOfRelease().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))}</td>
         </c:if>
-        <c:if test="${requestScope.dateOfRelease==null}">
+        <c:if test="${invoice.dateOfRelease==null}">
+            <td><p align="center">not released</p></td>
+        </c:if>
+        <c:if test="${invoice.dateOfPayment!=null}">
+            <td>${invoice.getDateOfPayment().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))}</td>
+        </c:if>
+        <c:if test="${invoice.dateOfPayment==null}">
+            <td><p align="center">not paid</p></td>
+        </c:if>
+        <c:if test="${invoice.billValue !=null}">
+            <td>${invoice.getBillValue()}</td>
+        </c:if>
+        <c:if test="${invoice.billValue ==null}">
             <td><p align="center">n/a</p></td>
         </c:if>
-        <c:if test="${requestScope.dateOfPayment !=null}">
-        <td>${invoice.getDateOfPayment().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))}</td>
-        </c:if>
-        <c:if test="${requestScope.dateOfPayment ==null}">
-            <td><p align="center">n/a</p></td>
-        </c:if>
-        <c:if test="${requestScope.billValuet !=null}">
-        <td>${invoice.getBillValue()}</td>
-        </c:if>
-        <c:if test="${requestScope.billValue ==null}">
-            <td><p align="center">n/a</p></td>
-        </c:if>
+        <td>${invoice.productList.size()}</td>
         <td>
             <table>
-                <tr><td>
-                    <a class="btn btn-primary" href="/product-add?invoiceId=${invoice.getId()}" role="button">Add product</a>
-                    </td>
+                <tr>
+                    <c:if test="${invoice.dateOfRelease==null}">
+                        <td>
+                            <a class="btn btn-primary" href="/product-add?invoiceId=${invoice.getId()}" role="button">Add product</a>
+                        </td>
+                    </c:if>
                     <td>
                         <a class="btn btn-primary" href="/product-list?invoiceId=${invoice.getId()}" role="button">List products</a>
                     </td>
+                    <c:if test="${invoice.dateOfRelease==null && !invoice.getProductList().isEmpty()}">
+                        <td>
+                            <a class="btn btn-primary" href="/invoice-set-release?invoiceId=${invoice.getId()}" role="button">Release invoice</a>
+                        </td>
+                    </c:if>
+                    <c:if test="${invoice.dateOfRelease!=null && invoice.paid==false}">
+                        <td>
+                            <a class="btn btn-primary" href="/invoice-set-paid?invoiceId=${invoice.getId()}" role="button">Set as paid</a>
+                        </td>
+                    </c:if>
                 </tr>
             </table>
         </td>

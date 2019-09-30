@@ -29,7 +29,7 @@
         <th>Stock</th>
         <th>Which Invoice</th>
     </tr>
-    <c:if test="${requestScope.gradeList.isEmpty()}">
+    <c:if test="${requestScope.productList.isEmpty()}">
         <tr><td colspan="7"><p align="center">No products in this Invoice</p></td></tr>
     </c:if>
     <c:if test="${!requestScope.productList.isEmpty()}">
@@ -42,6 +42,22 @@
                 <td>${product.getTaxType().toString()}</td>
                 <td>${product.getStock()}</td>
                 <td>${product.getInvoice().getId()}</td>
+            <td>
+                <table>
+                    <tr>
+                        <c:if test="${product.getInvoice().dateOfRelease == null}">
+                            <td>
+                                <a class="btn btn-primary" href="/product-edit?productId=${product.getId()}" role="button">Edit product</a>
+                            </td>
+                        </c:if>
+                        <c:if test="${product.getInvoice().dateOfRelease == null}">
+                        <td>
+                            <a class="btn btn-danger" href="/product-delete?productId=${product.getId()}" role="button">Delete product</a>
+                        </td>
+                        </c:if>
+                    </tr>
+                </table>
+            </td>
             </tr>
         </c:forEach>
     </c:if>

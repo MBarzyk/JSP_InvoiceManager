@@ -8,8 +8,10 @@ public class Product{ private Long id; private String name; private double price
 
 dodawanie faktur,
 dodawanie produktów do faktur
-oznaczanie faktur jako wydanych (zamknięta/wydana faktura, to faktura do której nie można dodawać już więcej produktów [zablokuj dostep do dodawania]).
-oznaczanie faktur jako opłaconych (opłacona faktura może być tylko raz, więc guzik "oznacz jako opłacona" jest tam dopóki faktura nie została opłacona)
+oznaczanie faktur jako wydanych (zamknięta/wydana faktura, to faktura do której nie można dodawać już więcej produktów 
+[zablokuj dostep do dodawania]).
+oznaczanie faktur jako opłaconych (opłacona faktura może być tylko raz, więc guzik "oznacz jako opłacona" jest tam dopóki faktura 
+nie została opłacona)
 w tabeli faktur wyświetl wszystkie pola faktury wraz z informacją o kliencie, o wysokości rachunku, oraz o datach opłacenia i dodaj również w tabeli liczbę produktów która znajduje się na powiązanej liście.
 dodawanie produktów do faktur:
 produkty powinny być powiązane z fakturami,

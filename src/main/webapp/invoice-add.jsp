@@ -21,7 +21,7 @@
     <input type="hidden" name="invoice_Id" value="${requestScope.invoiceId}">
     Client's name: <input type="text" name="client_name">
     <br/>
-    Client's NIP: <input type="text" name="client_nip">
+    Client's NIP: <input type="text" minlength="10" maxlength="10" name="client_nip">
     <br/>
     Client's address: <input type="text" name="client_address">
     <br/>
