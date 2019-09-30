@@ -62,7 +62,7 @@ public class ProductEditServlet extends HttpServlet {
 
             productService.update(editedProduct);
 
-            resp.sendRedirect("/product-list");
+            resp.sendRedirect("/product-list?invoiceId=" + invoiceIdentifier);
         }
     }
 }
